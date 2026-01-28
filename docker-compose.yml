@@ -1,0 +1,29 @@
+services:
+  ffmpeg:
+    container_name: my-ffmpeg
+    build:
+      context: ./ffmpeg
+      dockerfile: Dockerfile.ffmpeg
+    image: ffmpeg
+    depends_on:
+      - icecast
+    devices:
+      - "/dev/snd:/dev/snd"
+    networks:
+      - audio
+    restart: always
+
+  icecast:
+    container_name: my-icecast
+    build:
+      context: ./icecast
+      dockerfile: Dockerfile.icecast
+    image: icecast
+    ports:
+      - "8000:8000"
+    networks:
+      - audio
+    restart: always
+
+networks:
+  audio:

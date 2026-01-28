@@ -1,0 +1,13 @@
+FROM linuxserver/ffmpeg
+
+# Install alsa-utils for audio device handling
+RUN apt-get update && apt-get install -y alsa-utils && rm -rf /var/lib/apt/lists/*
+
+# Get script to run ffmpeg at startup
+COPY start-ffmpeg.sh /start-ffmpeg.sh
+RUN chmod +x /start-ffmpeg.sh
+
+# Start ffmpeg script
+ENTRYPOINT [ "/start-ffmpeg.sh" ]
+
+# Expose no ports (ffmpeg will push to icecast)
